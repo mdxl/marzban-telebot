@@ -377,7 +377,7 @@ def edit_user_command(call: types.CallbackQuery):
     elif action == "expire":
         msg = bot.send_message(
             call.message.chat.id,
-            '⬆️ Введите дату завершения (ГГГГ-ММ-ДД)\nИли воспользуйтесь символами регулярного выражения: ^[0-9]{1,3}(M|D) :\n⚠️ Send 0 for never expire.',
+            '⬆️ Введите дату окончания (ГГГГ-ММ-ДД)\nИли воспользуйтесь символами регулярного выражения: ^[0-9]{1,3}(M|D) :\n⚠️ Если дата окончания не нужна, отправьте 0.',
             reply_markup=BotKeyboard.inline_cancel_action(f'user:{username}'))
         mem_store.set(f"{call.message.chat.id}:edit_msg_text", call.message.text)
         bot.clear_step_handler_by_chat_id(call.message.chat.id)
@@ -389,12 +389,12 @@ def edit_user_command(call: types.CallbackQuery):
 def edit_user_data_limit_step(message: types.Message, username: str):
     try:
         if float(message.text) < 0:
-            wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be greater or equal to 0.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Лимит должен быть больше или равен 0.')
             schedule_delete_message(message.chat.id, wait_msg.message_id)
             return bot.register_next_step_handler(wait_msg, edit_user_data_limit_step, username=username)
         data_limit = float(message.text) * 1024 * 1024 * 1024
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be a number.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Лимит должен быть числом.')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, edit_user_data_limit_step, username=username)
     mem_store.set(f'{message.chat.id}:data_limit', data_limit)
@@ -403,7 +403,7 @@ def edit_user_data_limit_step(message: types.Message, username: str):
     mem_store.delete(f"{message.chat.id}:edit_msg_text")
     bot.send_message(
         message.chat.id,
-        text or f"📝 Editing user <code>{username}</code>",
+        text or f"📝 Редактирование пользователя <code>{username}</code>",
         parse_mode="html",
         reply_markup=BotKeyboard.select_protocols(
         mem_store.get(f'{message.chat.id}:protocols'), "edit",
@@ -437,11 +437,11 @@ def edit_user_expire_step(message: types.Message, username: str):
         else:
             expire_date = None
         if expire_date and expire_date < today:
-            wait_msg = bot.send_message(message.chat.id, '❌ Expire date must be greater than today.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Дата окончания должна быть позже текущей даты.')
             schedule_delete_message(message.chat.id, wait_msg.message_id)
             return bot.register_next_step_handler(wait_msg, edit_user_expire_step, username=username)
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Expire date must be in YYYY-MM-DD format.\nOr You Can Use Regex Symbol: ^[0-9]{1,3}(M|D)')
+        wait_msg = bot.send_message(message.chat.id, '❌ Дата окончания должна быть в формате ГГГГ-ММ-ДД.\nИли вы можете использовать символы для регулярного выражения: ^[0-9]{1,3}(M|D)')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, edit_user_expire_step, username=username)
 
