@@ -24,12 +24,12 @@ def report(message: str, parse_mode="html", keyboard=None):
 
 def report_new_user(user_id: int, username: str, by: str, expire_date: int, usage: str, proxies: list):
     text = '''\
-🆕 <b>#Created</b>
+🆕 <b>#Создан</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username :</b> <code>{username}</code>
-<b>Traffic Limit :</b> <code>{usage}</code>
-<b>Expire Date :</b> <code>{expire_date}</code>
-<b>Proxies :</b> <code>{proxies}</code>
+<b>Имя пользователя :</b> <code>{username}</code>
+<b>Лимит трафика :</b> <code>{usage}</code>
+<b>Срок действия :</b> <code>{expire_date}</code>
+<b>Прокси  :</b> <code>{proxies}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>By :</b> <b>#{by}</b>'''.format(
         by=escape_html(by),
@@ -51,12 +51,12 @@ def report_new_user(user_id: int, username: str, by: str, expire_date: int, usag
 
 def report_user_modification(username: str, expire_date: int, usage: str, proxies: list, by: str):
     text = '''\
-✏️ <b>#Modified</b>
+✏️ <b>#Изменен</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username :</b> <code>{username}</code>
-<b>Traffic Limit :</b> <code>{usage}</code>
-<b>Expire Date :</b> <code>{expire_date}</code>
-<b>Protocols :</b> <code>{protocols}</code>
+<b>Имя пользователя :</b> <code>{username}</code>
+<b>Лимит трафика :</b> <code>{usage}</code>
+<b>Срок действия :</b> <code>{expire_date}</code>
+<b>Протоколы :</b> <code>{protocols}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>By :</b> <b>#{by}</b>\
     '''.format(
@@ -75,11 +75,11 @@ def report_user_modification(username: str, expire_date: int, usage: str, proxie
 
 def report_user_deletion(username: str, by: str):
     text = '''\
-🗑 <b>#Deleted</b>
+🗑 <b>#Удален</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
+<b>Имя пользователя</b> : <code>{username}</code>
 ➖➖➖➖➖➖➖➖➖
-<b>By</b> : <b>#{by}</b>\
+<b>От</b> : <b>#{by}</b>\
     '''.format(
         by=escape_html(by),
         username=escape_html(username)
@@ -89,10 +89,10 @@ def report_user_deletion(username: str, by: str):
 
 def report_status_change(username: str, status: str):
     _status = {
-        'active': '✅ <b>#Activated</b>',
-        'disabled': '❌ <b>#Disabled</b>',
-        'limited': '🪫 <b>#Limited</b>',
-        'expired': '🕔 <b>#Expired</b>'
+        'active': '✅ <b>#Активирован</b>',
+        'disabled': '❌ <b>#Отключен</b>',
+        'limited': '🪫 <b>#Ограничен</b>',
+        'expired': '🕔 <b>#Истек</b>'
     }
     text = '''\
 {status}
