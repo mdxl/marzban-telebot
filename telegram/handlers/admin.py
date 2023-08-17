@@ -169,7 +169,7 @@ def activate_user_command(call: types.CallbackQuery):
 def reset_usage_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Вы уверены? Это приведет к сбросу данных пользователя `{username}`.",
+        f"⚠️ Вы уверены? Это приведет к сбросу статистики пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -204,7 +204,7 @@ def edit_all_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('delete_expired'), is_admin=True)
 def delete_expired_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will *DELETE All Expired Users*‼️",
+        f"⚠️ Вы уверены? Это *УДАЛИТ Всех пользователей с истекшим сроком*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -214,7 +214,7 @@ def delete_expired_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('delete_limited'), is_admin=True)
 def delete_limited_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will *DELETE All Limited Users*‼️",
+        f"⚠️ Вы уверены? Это *УДАЛИТ Всех пользователей исчерпавших лимит*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -224,7 +224,7 @@ def delete_limited_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('add_data'), is_admin=True)
 def add_data_command(call: types.CallbackQuery):
     msg = bot.edit_message_text(
-        f"🔋 Enter Data Limit to increase or decrease (GB):",
+        f"🔋 Введите количество Гб, на которое вы хотите увеличить или уменьшить лимит:",
         call.message.chat.id,
         call.message.message_id,
         reply_markup=BotKeyboard.inline_cancel_action())
@@ -239,13 +239,13 @@ def add_data_step(message):
         if not data_limit:
             raise ValueError
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be a number and not zero.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Лимит должен быть числом и не равен нулю.')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, add_data_step)
     schedule_delete_message(message.chat.id, message.message_id)
     msg = bot.send_message(
         message.chat.id,
-        f"⚠️ Are you sure? this will change Data limit of all users according to <b>"\
+        f"⚠️ Вы уверены? Это изменит лимит для всех пользователей на <b>"\
             f"{'+' if data_limit > 0 else '-'}{readable_size(abs(data_limit *1024*1024*1024))}</b>",
         parse_mode="html",
         reply_markup=BotKeyboard.confirm_action('add_data', data_limit))
@@ -257,7 +257,7 @@ def add_data_step(message):
 @bot.callback_query_handler(cb_query_equals('add_time'), is_admin=True)
 def add_time_command(call: types.CallbackQuery):
     msg = bot.edit_message_text(
-        f"📅 Enter Days to increase or decrease expiry:",
+        f"📅 Введите количество дней, на которое вы хотите увеличить или уменьшить срок действия:",
         call.message.chat.id,
         call.message.message_id,
         reply_markup=BotKeyboard.inline_cancel_action())
@@ -272,13 +272,13 @@ def add_time_step(message):
         if not days:
             raise ValueError
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Days must be as a number and not zero.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Кол-во дней должно быть числом и не равно нулю.')
         schedule_delete_message(message.chat.id, wait_msg.message_id)
         return bot.register_next_step_handler(wait_msg, add_time_step)
     schedule_delete_message(message.chat.id, message.message_id)
     msg = bot.send_message(
         message.chat.id,
-        f"⚠️ Are you sure? this will change Expiry Time of all users according to <b>{days} Days</b>",
+        f"⚠️ Вы уверены? Это изменит срок действия для всех пользователей на <b>{days} Days</b>",
         parse_mode="html",
         reply_markup=BotKeyboard.confirm_action('add_time', days))
     cleanup_messages(message.chat.id)
