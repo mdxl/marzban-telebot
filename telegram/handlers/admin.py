@@ -43,23 +43,23 @@ def get_system_info():
         total_users = crud.get_users_count(db)
         users_active = crud.get_users_count(db, UserStatus.active)
     return """\
-🎛 *CPU Cores*: `{cpu_cores}`
-🖥 *CPU Usage*: `{cpu_percent}%`
+🎛 *Количество ядер CPU*: `{cpu_cores}`
+🖥 *Использование CPU*: `{cpu_percent}%`
 ➖➖➖➖➖➖➖
-📊 *Total Memory*: `{total_memory}`
-📈 *In Use Memory*: `{used_memory}`
-📉 *Free Memory*: `{free_memory}`
+📊 *Всего памяти*: `{total_memory}`
+📈 *Используется*: `{used_memory}`
+📉 *Свободно*: `{free_memory}`
 ➖➖➖➖➖➖➖
-⬇️ *Download Usage*: `{down_bandwidth}`
-⬆️ *Upload Usage*: `{up_bandwidth}`
-↕️ *Total Usage*: `{total_bandwidth}`
+⬇️ *Скачено*: `{down_bandwidth}`
+⬆️ *Загружено*: `{up_bandwidth}`
+↕️ *Всего*: `{total_bandwidth}`
 ➖➖➖➖➖➖➖
-👥 *Total Users*: `{total_users}`
-🟢 *Active Users*: `{active_users}`
-🔴 *Deactivate Users*: `{deactivate_users}`
+👥 *Всего пользователей*: `{total_users}`
+🟢 *Активных*: `{active_users}`
+🔴 *Неактивных*: `{deactivate_users}`
 ➖➖➖➖➖➖➖
-⏫ *Upload Speed*: `{up_speed}`
-⏬ *Download Speed*: `{down_speed}`
+⏫ *Скорость загрузки*: `{up_speed}`
+⏬ *Скорость скачивания*: `{down_speed}`
 """.format(
         cpu_cores=cpu.cores,
         cpu_percent=cpu.percent,
@@ -97,9 +97,9 @@ def help_command(message: types.Message):
     cleanup_messages(message.chat.id)
     bot.clear_step_handler_by_chat_id(message.chat.id)
     return bot.reply_to(message, """
-{user_link} Welcome to Marzban Telegram-Bot Admin Panel.
-Here you can manage your users and proxies.
-To get started, use the buttons below.
+{user_link} Добро пожаловать в админ-панель бота Marzban для Telegram.
+Здесь вы можете управлять вашими пользователями и прокси.
+Для начала используйте кнопки ниже.
 """.format(
         user_link=user_link(message.from_user)
     ), parse_mode="html", reply_markup=BotKeyboard.main_menu())
@@ -119,7 +119,7 @@ def system_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('restart'), is_admin=True)
 def restart_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        '⚠️ Are you sure? This will restart Xray core.',
+        '⚠️ Вы уверены? Это перезагрузит настройки Xray.',
         call.message.chat.id,
         call.message.message_id,
         reply_markup=BotKeyboard.confirm_action(action='restart')
@@ -130,7 +130,7 @@ def restart_command(call: types.CallbackQuery):
 def delete_user_command(call: types.CallbackQuery):
     username = call.data.split(':')[1]
     bot.edit_message_text(
-        f'⚠️ Are you sure? This will delete user `{username}`.',
+        f'⚠️ Вы уверены? Это удалит пользователя `{username}`.',
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -143,7 +143,7 @@ def delete_user_command(call: types.CallbackQuery):
 def suspend_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will suspend user `{username}`.",
+        f"⚠️ Вы уверены? Это приостановит пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -156,7 +156,7 @@ def suspend_user_command(call: types.CallbackQuery):
 def activate_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will activate user `{username}`.",
+        f"⚠️ Вы уверены? Это активирует пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
