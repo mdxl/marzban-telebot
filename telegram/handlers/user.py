@@ -32,8 +32,8 @@ def usage_command(message):
             'disabled': '❌'}
 
         text = f'''\
-┌─{statuses[user.status]} <b>Status:</b> <code>{user.status.title()}</code>
-│          └─<b>Username:</b> <code>{user.username}</code>
+┌─{statuses[user.status]} <b>Статус:</b> <code>{user.status.title()}</code>
+│          └─<b>Имя пользователя:</b> <code>{user.username}</code>
 │
 ├─🔋 <b>Ограничение данных:</b> <code>{readable_size(user.data_limit) if user.data_limit else 'Unlimited'}</code>
 │          └─<b>Использованно данных:</b> <code>{readable_size(user.used_traffic) if user.used_traffic else "-"}</code>
