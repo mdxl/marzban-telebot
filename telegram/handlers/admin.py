@@ -451,7 +451,7 @@ def edit_user_expire_step(message: types.Message, username: str):
     mem_store.delete(f"{message.chat.id}:edit_msg_text")
     bot.send_message(
         message.chat.id,
-        text or f"📝 Editing user <code>{username}</code>",
+        text or f"📝 Редактирование пользователя <code>{username}</code>",
         parse_mode="html",
         reply_markup=BotKeyboard.select_protocols(
         mem_store.get(f'{message.chat.id}:protocols'), "edit",
@@ -465,11 +465,11 @@ def users_command(call: types.CallbackQuery):
     with GetDB() as db:
         total_pages = math.ceil(crud.get_users_count(db) / 10)
         users = crud.get_users(db, offset=(page - 1) * 10, limit=10, sort=[crud.UsersSortingOptions["-created_at"]])
-        text = """👥 Users: (Page {page}/{total_pages})
-✅ Active
-❌ Disabled
-🕰 Expired
-🪫 Limited""".format(page=page, total_pages=total_pages)
+        text = """👥 Пользователи: (Page {page}/{total_pages})
+✅ Активные
+❌ Отключенные
+🕰 С истекшим сроком
+🪫 Исчерпавших лимит""".format(page=page, total_pages=total_pages)
 
     bot.edit_message_text(
         text,
