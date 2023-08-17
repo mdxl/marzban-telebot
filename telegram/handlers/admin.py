@@ -298,7 +298,7 @@ def inbound_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_startswith("confirm_inbound"), is_admin=True)
 def delete_expired_confirm_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will *{call.data[16:].replace(':', ' ')} for All Users*‼️",
+        f"⚠️ Вы уверены? Это изменит *{call.data[16:].replace(':', ' ')} для Всех пользователей*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -314,7 +314,7 @@ def edit_command(call: types.CallbackQuery):
         if not db_user:
             return bot.answer_callback_query(
                 call.id,
-                '❌ User not found.',
+                '❌ Пользователь не найден.',
                 show_alert=True
             )
         user = UserResponse.from_orm(db_user)
@@ -323,7 +323,7 @@ def edit_command(call: types.CallbackQuery):
     mem_store.set(f'{call.message.chat.id}:expire_date', datetime.fromtimestamp(db_user.expire) if db_user.expire else None)
     mem_store.set(f'{call.message.chat.id}:protocols', {protocol.value: inbounds for protocol, inbounds in db_user.inbounds.items()})
     bot.edit_message_text(
-        f"📝 Editing user `{username}`",
+        f"📝 Редактирование пользователя `{username}`",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -341,7 +341,7 @@ def edit_command(call: types.CallbackQuery):
 def help_edit_command(call: types.CallbackQuery):
     bot.answer_callback_query(
         call.id,
-        text="Press the (✏️ Edit) button to edit",
+        text="Нажмите кнопку (✏️ Редактировать) для изменения",
         show_alert=True
     )
 
@@ -366,7 +366,7 @@ def edit_user_command(call: types.CallbackQuery):
     if action == "data":
         msg = bot.send_message(
             call.message.chat.id,
-            '⬆️ Enter Data Limit (GB):\n⚠️ Send 0 for unlimited.',
+            '⬆️ Введите ограничение по объему данных в (Гб):\n⚠️ Если ограничения не нужны, отправьте 0.',
             reply_markup=BotKeyboard.inline_cancel_action(f'user:{username}')
         )
         mem_store.set(f"{call.message.chat.id}:edit_msg_text", call.message.text)
@@ -377,7 +377,7 @@ def edit_user_command(call: types.CallbackQuery):
     elif action == "expire":
         msg = bot.send_message(
             call.message.chat.id,
-            '⬆️ Enter Expire Date (YYYY-MM-DD)\nOr You Can Use Regex Symbol: ^[0-9]{1,3}(M|D) :\n⚠️ Send 0 for never expire.',
+            '⬆️ Введите дату завершения (ГГГГ-ММ-ДД)\nИли воспользуйтесь символами регулярного выражения: ^[0-9]{1,3}(M|D) :\n⚠️ Send 0 for never expire.',
             reply_markup=BotKeyboard.inline_cancel_action(f'user:{username}'))
         mem_store.set(f"{call.message.chat.id}:edit_msg_text", call.message.text)
         bot.clear_step_handler_by_chat_id(call.message.chat.id)
