@@ -169,7 +169,7 @@ def activate_user_command(call: types.CallbackQuery):
 def reset_usage_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will Reset Usage of user `{username}`.",
+        f"⚠️ Вы уверены? Это приведет к сбросу данных пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -187,11 +187,11 @@ def edit_all_command(call: types.CallbackQuery):
         exipred_users = crud.get_users_count(db, UserStatus.expired)
         limited_users = crud.get_users_count(db, UserStatus.limited)
         text = f'''
-👥 *Total Users*: `{total_users}`
-✅ *Active Users*: `{active_users}`
-❌ *Disabled Users*: `{disabled_users}`
-🕰 *Expired Users*: `{exipred_users}`
-🪫 *Limited Users*: `{limited_users}`'''
+👥 *Всего пользователей*: `{total_users}`
+✅ *Активных*: `{active_users}`
+❌ *Отключенных*: `{disabled_users}`
+🕰 *С истекшим сроком*: `{exipred_users}`
+🪫 *Исчерпавших лимит*: `{limited_users}`'''
     return bot.edit_message_text(
         text,
         call.message.chat.id,
