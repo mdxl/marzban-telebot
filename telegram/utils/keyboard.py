@@ -20,8 +20,8 @@ class BotKeyboard:
     def main_menu():
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
-            types.InlineKeyboardButton(text='🔁 Данные о системе', callback_data='system'),
-            types.InlineKeyboardButton(text='♻️ Перезапустить Xray', callback_data='restart'))
+            types.InlineKeyboardButton(text='🔁 О системе', callback_data='system'),
+            types.InlineKeyboardButton(text='♻️ Перезагрузить Xray', callback_data='restart'))
         keyboard.add(
             types.InlineKeyboardButton(text='👥 Пользователи', callback_data='users:1'),
             types.InlineKeyboardButton(text='✏️ Редактировать всех пользователей', callback_data='edit_all'))
