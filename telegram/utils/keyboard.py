@@ -82,7 +82,7 @@ class BotKeyboard:
         keyboard = types.InlineKeyboardMarkup()
 
         keyboard.add(types.InlineKeyboardButton(
-                text='🔡 Сгенерировать случайное Имя пользователя',
+                text='🔡 Задать произвольное Имя пользователя',
                 callback_data=f'random:{template_id}'))
         keyboard.add(types.InlineKeyboardButton(
                 text='🔙 Отмена',
@@ -233,10 +233,10 @@ class BotKeyboard:
             row = []
             for p in user:
                 status = {
-                    'active': '✅',
-                    'expired': '🕰',
-                    'limited': '📵',
-                    'disabled': '❌'
+                    'Активен': '✅',
+                    'Истекла дата': '🕰',
+                    'Израсходовал лимит': '📵',
+                    'Отключен': '❌'
                 }
                 row.append(types.InlineKeyboardButton(
                     text=f"{p.username} ({status[p.status]})",
