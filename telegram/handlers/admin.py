@@ -949,7 +949,7 @@ def random_username(call: types.CallbackQuery):
         expire_date = today + relativedelta(seconds=template.expire_duration)
     mem_store.set(f"{call.message.chat.id}:expire_date", expire_date)
 
-    text = f"📝 Creating user <code>{username}</code>\n" + get_template_info_text(
+    text = f"📝 Создание пользователя <code>{username}</code>\n" + get_template_info_text(
         id=template.id, data_limit=template.data_limit, expire_duration=template.expire_duration,
         username_prefix=template.username_prefix, username_suffix=template.username_suffix, inbounds=template.inbounds)
 
@@ -968,10 +968,10 @@ def random_username(call: types.CallbackQuery):
 def add_user_from_template_username_step(message: types.Message):
     template_id = mem_store.get(f"{message.chat.id}:template_id")
     if template_id is None:
-        return bot.send_message(message.chat.id, "An error occured in the process! try again.")
+        return bot.send_message(message.chat.id, "В процессе произошла ошибка! Попробуйте еще раз.")
 
     if not message.text:
-        wait_msg = bot.send_message(message.chat.id, '❌ Username can not be empty.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Имя пользователя не может быть пустым.')
         schedule_delete_message(message.chat.id, wait_msg.message_id, message.message_id)
         return bot.register_next_step_handler(wait_msg, add_user_from_template_username_step)
 
@@ -987,25 +987,25 @@ def add_user_from_template_username_step(message: types.Message):
         match = re.match(r'^(?!.*__)(?!.*_$)\w{2,31}[a-zA-Z\d]$', username)
         if not match:
             wait_msg = bot.send_message(message.chat.id,
-                '❌ Username only can be 3 to 32 characters and contain a-z, A-Z, 0-9, and underscores in between.')
+                '❌ Имя пользователя может содержать только от 3 до 32 символов и включать a-z, A-Z, 0-9 и подчеркивания между ними.')
             schedule_delete_message(message.chat.id, wait_msg.message_id, message.message_id)
             return bot.register_next_step_handler(wait_msg, add_user_from_template_username_step)
 
         if len(username) < 3:
             wait_msg = bot.send_message(message.chat.id,
-                f"❌ Username can't be generated because is shorter than 32 characters! username: <code>{username}</code>",
+                f"❌  Имя пользователя не может быть создано, так как оно короче 3 символов! Имя пользователя: <code>{username}</code>",
                 parse_mode="HTML")
             schedule_delete_message(message.chat.id, wait_msg.message_id, message.message_id)
             return bot.register_next_step_handler(wait_msg, add_user_from_template_username_step)
         elif len(username) > 32:
             wait_msg = bot.send_message(message.chat.id,
-                f"❌ Username can't be generated because is longer than 32 characters! username: <code>{username}</code>",
+                f"❌ Имя пользователя не может быть создано, так как оно длиннее 32 символов! Имя пользователя: <code>{username}</code>",
                 parse_mode="HTML")
             schedule_delete_message(message.chat.id, wait_msg.message_id, message.message_id)
             return bot.register_next_step_handler(wait_msg, add_user_from_template_username_step)
 
         if crud.get_user(db, username):
-            wait_msg = bot.send_message(message.chat.id, '❌ Username already exists.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Имя пользователя уже существует.')
             schedule_delete_message(message.chat.id, wait_msg.message_id, message.message_id)
             return bot.register_next_step_handler(wait_msg, add_user_from_template_username_step)
         template = UserTemplateResponse.from_orm(template)
@@ -1026,7 +1026,7 @@ def add_user_from_template_username_step(message: types.Message):
         expire_date = today + relativedelta(seconds=template.expire_duration)
     mem_store.set(f"{message.chat.id}:expire_date", expire_date)
 
-    text = f"📝 Creating user <code>{username}</code>\n" + get_template_info_text(
+    text = f"📝 Создание пользователя <code>{username}</code>\n" + get_template_info_text(
         id=template.id, data_limit=template.data_limit, expire_duration=template.expire_duration,
         username_prefix=template.username_prefix, username_suffix=template.username_suffix, inbounds=template.inbounds)
 
