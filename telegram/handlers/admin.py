@@ -47,7 +47,7 @@ def get_system_info():
 🖥 *Использование CPU*: `{cpu_percent}%`
 ➖➖➖➖➖➖➖
 📊 *Всего памяти*: `{total_memory}`
-📈 *Используется*: `{used_memory}`
+📈 *Использовано*: `{used_memory}`
 📉 *Свободно*: `{free_memory}`
 ➖➖➖➖➖➖➖
 ⬇️ *Скачено*: `{down_bandwidth}`
@@ -832,11 +832,11 @@ def charge_command(call: types.CallbackQuery):
     with GetDB() as db:
         templates = crud.get_user_templates(db)
         if not templates:
-            return bot.answer_callback_query(call.id, "You don't have any User Templates!")
+            return bot.answer_callback_query(call.id, "У вас нет Пользовательских Шаблонов!")
 
         db_user = crud.get_user(db, username)
         if not db_user:
-            return bot.answer_callback_query(call.id, "User not found!", show_alert=True)
+            return bot.answer_callback_query(call.id, "Пользователь не найден!", show_alert=True)
 
     bot.edit_message_text(
         f"{call.message.html_text}\n\n🔢 Select <b>User Template</b> to charge:",
