@@ -169,7 +169,7 @@ def activate_user_command(call: types.CallbackQuery):
 def reset_usage_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Вы уверены? Это приведет к сбросу статистики пользователя `{username}`.",
+        f"⚠️ Вы уверены? Это приведет к сбросу всей информации об использованных данных для пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -469,7 +469,7 @@ def users_command(call: types.CallbackQuery):
 ✅ Активные
 ❌ Отключенные
 🕰 С истекшим сроком
-🪫 Исчерпавших лимит""".format(page=page, total_pages=total_pages)
+🪫 Израсходовавшие лимит""".format(page=page, total_pages=total_pages)
 
     bot.edit_message_text(
         text,
@@ -490,18 +490,18 @@ def get_user_info_text(
         'limited': '🪫',
         'disabled': '❌'}
     text = f'''\
-┌─{statuses[status]} <b>Status:</b> <code>{status.title()}</code>
-│          └─<b>Username:</b> <code>{username}</code>
+┌─{statuses[status]} <b>Статус:</b> <code>{status.title()}</code>
+│          └─<b>Имя пользователя:</b> <code>{username}</code>
 │
-├─🔋 <b>Data limit:</b> <code>{readable_size(data_limit) if data_limit else 'Unlimited'}</code>
-│          └─<b>Data Used:</b> <code>{readable_size(usage) if usage else "-"}</code>
+├─🔋 <b>Лимит по трафику:</b> <code>{readable_size(data_limit) if data_limit else 'Unlimited'}</code>
+│          └─<b>Использовано:</b> <code>{readable_size(usage) if usage else "-"}</code>
 │
-├─📅 <b>Expiry Date:</b> <code>{datetime.fromtimestamp(expire).date() if expire else 'Never'}</code>
-│           └─<b>Days left:</b> <code>{(datetime.fromtimestamp(expire or 0) - datetime.now()).days if expire else '-'}</code>
+├─📅 <b>Срок действия:</b> <code>{datetime.fromtimestamp(expire).date() if expire else 'Never'}</code>
+│           └─<b>Осталось дней:</b> <code>{(datetime.fromtimestamp(expire or 0) - datetime.now()).days if expire else '-'}</code>
 │
 '''
     if note:
-        text += f'├─📝 <b>Note:</b> <code>{note}</code>\n│\n'
+        text += f'├─📝 <b>Заметка:</b> <code>{note}</code>\n│\n'
     text += f'└─🚀 <b><a href="{sub_url}">Subscription</a>:</b> <code>{sub_url}</code>'
     return text
 
@@ -513,13 +513,13 @@ def get_template_info_text(
         protocols += f"\n├─ <b>{p.upper()}</b>\n"
         protocols += "├───" + ", ".join([f"<code>{i}</code>" for i in inbounds])
     text = f"""
-📊 Template Info:
+📊 Информация о шаблоне:
 ┌ ID: <b>{id}</b>
-├ Data Limit: <b>{readable_size(data_limit) if data_limit else 'Unlimited'}</b>
-├ Expire Date: <b>{(datetime.now() + relativedelta(seconds=expire_duration)).strftime('%Y-%m-%d') if expire_duration else 'Never'}</b>
-├ Username Prefix: <b>{username_prefix if username_prefix else '🚫'}</b>
-├ Username Suffix: <b>{username_suffix if username_suffix else '🚫'}</b>
-├ Protocols: {protocols}
+├ Лимит по трафику: <b>{readable_size(data_limit) if data_limit else 'Unlimited'}</b>
+├ Дата окончания: <b>{(datetime.now() + relativedelta(seconds=expire_duration)).strftime('%Y-%m-%d') if expire_duration else 'Never'}</b>
+├ Префикс имени пользователя: <b>{username_prefix if username_prefix else '🚫'}</b>
+├ Суффикс имени пользователя: <b>{username_suffix if username_suffix else '🚫'}</b>
+├ Протоколы: {protocols}
         """
     return text
 
@@ -530,12 +530,12 @@ def edit_note_command(call: types.CallbackQuery):
     with GetDB() as db:
         db_user = crud.get_user(db, username)
         if not db_user:
-            return bot.answer_callback_query(call.id, '❌ User not found.', show_alert=True)
+            return bot.answer_callback_query(call.id, '❌ Пользователь не найден.', show_alert=True)
     schedule_delete_message(call.message.chat.id, call.message.id)
     cleanup_messages(call.message.chat.id)
     msg = bot.send_message(
         call.message.chat.id,
-        f'<b>📝 Current Note:</b> <code>{db_user.note}</code>\n\nSend new Note for <code>{username}</code>',
+        f'<b>📝 Текущее примечание:</b> <code>{db_user.note}</code>\n\nОтправьте новое примечание для <code>{username}</code>',
         parse_mode="HTML",
         reply_markup=BotKeyboard.inline_cancel_action(f'user:{username}'))
     mem_store.set(f'{call.message.chat.id}:username', username)
@@ -546,7 +546,7 @@ def edit_note_command(call: types.CallbackQuery):
 def edit_note_step(message: types.Message):
     note = message.text or ''
     if len(note) > 500:
-        wait_msg = bot.send_message(message.chat.id, '❌ Note can not be more than 500 characters.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Примечание не может содержать более 500 символов.')
         schedule_delete_message(message.chat.id, wait_msg.id)
         schedule_delete_message(message.chat.id, message.id)
         return bot.register_next_step_handler(wait_msg, edit_note_step)
@@ -554,7 +554,7 @@ def edit_note_step(message: types.Message):
         username = mem_store.get(f'{message.chat.id}:username')
         if not username:
             cleanup_messages(message.chat.id)
-            bot.reply_to(message, '❌ Something went wrong!\n restart bot /start')
+            bot.reply_to(message, '❌Что-то пошло не так!\n Перезапустите бот с помощью команды /start')
         db_user = crud.get_user(db, username)
         last_note = db_user.note
         modify = UserModify(note=note)
@@ -573,11 +573,11 @@ def edit_note_step(message: types.Message):
             'username': user.username}, note=note))
         if TELEGRAM_LOGGER_CHANNEL_ID:
             text = f'''\
-📝 <b>#Edit_Note #From_Bot</b>
+📝 <b>#Редактирование_Примечания #От Бота</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username :</b> <code>{user.username}</code>
-<b>Last Note :</b> <code>{last_note}</code>
-<b>New Note :</b> <code>{user.note}</code>
+<b>Имя пользователя :</b> <code>{user.username}</code>
+<b>Последнее примечание :</b> <code>{last_note}</code>
+<b>Новое примечание :</b> <code>{user.note}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>By :</b> <a href="tg://user?id={message.chat.id}">{message.from_user.full_name}</a>'''
             try:
