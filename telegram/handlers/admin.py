@@ -190,8 +190,8 @@ def edit_all_command(call: types.CallbackQuery):
 👥 *Всего пользователей*: `{total_users}`
 ✅ *Активных*: `{active_users}`
 ❌ *Отключенных*: `{disabled_users}`
-🕰 *С истекшим сроком*: `{exipred_users}`
-🪫 *Исчерпавших лимит*: `{limited_users}`'''
+🕰 *С истекшей датой*: `{exipred_users}`
+🪫 *Израсходовавшие лимит*: `{limited_users}`'''
     return bot.edit_message_text(
         text,
         call.message.chat.id,
@@ -204,7 +204,7 @@ def edit_all_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('delete_expired'), is_admin=True)
 def delete_expired_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Вы уверены? Это *УДАЛИТ Всех пользователей с истекшим сроком*‼️",
+        f"⚠️ Вы уверены? Это *УДАЛИТ Всех пользователей с истекшей датой*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -214,7 +214,7 @@ def delete_expired_command(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_equals('delete_limited'), is_admin=True)
 def delete_limited_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"⚠️ Вы уверены? Это *УДАЛИТ Всех пользователей исчерпавших лимит*‼️",
+        f"⚠️ Вы уверены? Это *УДАЛИТ Всех пользователей израсходовавших лимит*‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -278,7 +278,7 @@ def add_time_step(message):
     schedule_delete_message(message.chat.id, message.message_id)
     msg = bot.send_message(
         message.chat.id,
-        f"⚠️ Вы уверены? Это изменит срок действия для всех пользователей на <b>{days} Days</b>",
+        f"⚠️ Вы уверены? Это изменит дату окончания для всех пользователей на <b>{days} Дней</b>",
         parse_mode="html",
         reply_markup=BotKeyboard.confirm_action('add_time', days))
     cleanup_messages(message.chat.id)
