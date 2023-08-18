@@ -660,7 +660,7 @@ def genqr_command(call: types.CallbackQuery):
 
         user = UserResponse.from_orm(db_user)
 
-    bot.answer_callback_query(call.id, "Generating QR code...")
+    bot.answer_callback_query(call.id, "Генерация QR-кода...")
 
     for link in user.links:
         f = io.BytesIO()
