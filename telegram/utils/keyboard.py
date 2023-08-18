@@ -179,11 +179,11 @@ class BotKeyboard:
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
             types.InlineKeyboardButton(
-                text='Yes',
+                text='Да',
                 callback_data=f"confirm:{action}:{username}"
             ),
             types.InlineKeyboardButton(
-                text='No',
+                text='Нет',
                 callback_data=f"cancel"
             )
         )
