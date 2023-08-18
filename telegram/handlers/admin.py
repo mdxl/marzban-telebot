@@ -44,7 +44,7 @@ def get_system_info():
         users_active = crud.get_users_count(db, UserStatus.active)
     return """\
 🎛 *Количество ядер CPU*: `{cpu_cores}`
-🖥 *Использование CPU*: `{cpu_percent}%`
+🖥 *Использовано CPU*: `{cpu_percent}%`
 ➖➖➖➖➖➖➖
 📊 *Всего памяти*: `{total_memory}`
 📈 *Использовано*: `{used_memory}`
@@ -1143,7 +1143,7 @@ def add_user_expire_step(message: types.Message, username: str, data_limit: int)
             return bot.register_next_step_handler(wait_msg, add_user_expire_step, username=username, data_limit=data_limit)
     except ValueError:
         wait_msg = bot.send_message(message.chat.id,
-            '❌ Expire date must be in YYYY-MM-DD format.\nOr You Can Use Regex Symbol: ^[0-9]{1,3}(M|D)')
+            '❌ Дата окончания должна быть в формате ГГГГ-ММ-ДД.\nИли вы можете использовать символы регулярных выражений: ^[0-9]{1,3}(M|D)')
         schedule_delete_message(message.chat.id, wait_msg.id)
         schedule_delete_message(message.chat.id, message.id)
         return bot.register_next_step_handler(wait_msg, add_user_expire_step, username=username, data_limit=data_limit)
@@ -1169,7 +1169,7 @@ def add_user_expire_step(message: types.Message, username: str, data_limit: int)
 @bot.callback_query_handler(cb_query_startswith('select_inbound:'), is_admin=True)
 def select_inbounds(call: types.CallbackQuery):
     if not (username := mem_store.get(f'{call.message.chat.id}:username')):
-        return bot.answer_callback_query(call.id, '❌ No user selected.', show_alert=True)
+        return bot.answer_callback_query(call.id, '❌ Пользователь не выбран.', show_alert=True)
     protocols: dict[str, list[str]] = mem_store.get(f'{call.message.chat.id}:protocols', {})
     _, inbound, action = call.data.split(':')
     for protocol, inbounds in xray.config.inbounds_by_protocol.items():
@@ -1208,7 +1208,7 @@ def select_inbounds(call: types.CallbackQuery):
 @bot.callback_query_handler(cb_query_startswith('select_protocol:'), is_admin=True)
 def select_protocols(call: types.CallbackQuery):
     if not (username := mem_store.get(f'{call.message.chat.id}:username')):
-        return bot.answer_callback_query(call.id, '❌ No user selected.', show_alert=True)
+        return bot.answer_callback_query(call.id, '❌ Пользователь не выбран.', show_alert=True)
     protocols: dict[str, list[str]] = mem_store.get(f'{call.message.chat.id}:protocols', {})
     _, protocol, action = call.data.split(':')
     if protocol in protocols:
@@ -1259,18 +1259,18 @@ def confirm_user_command(call: types.CallbackQuery):
             xray.operations.remove_user(db_user)
 
         bot.edit_message_text(
-            '✅ User deleted.',
+            '✅ Пользователь удален.',
             call.message.chat.id,
             call.message.message_id,
             reply_markup=BotKeyboard.main_menu()
         )
         if TELEGRAM_LOGGER_CHANNEL_ID:
             text = f'''\
-🗑 <b>#Deleted #From_Bot</b>
+🗑 <b>#Удалено #From_Bot</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username :</b> <code>{db_user.username}</code>
-<b>Traffic Limit :</b> <code>{readable_size(db_user.data_limit) if db_user.data_limit else "Unlimited"}</code>
-<b>Expire Date :</b> <code>\
+<b>Имя пользователя :</b> <code>{db_user.username}</code>
+<b>Лимит по трафику :</b> <code>{readable_size(db_user.data_limit) if db_user.data_limit else "Unlimited"}</code>
+<b>Дата окончания :</b> <code>\
 {datetime.fromtimestamp(db_user.expire).strftime('%H:%M:%S %Y-%m-%d') if db_user.expire else "Never"}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>By :</b> <a href="tg://user?id={chat_id}">{full_name}</a>'''
@@ -1307,9 +1307,9 @@ def confirm_user_command(call: types.CallbackQuery):
             }, note=note))
         if TELEGRAM_LOGGER_CHANNEL_ID:
             text = f'''\
-❌ <b>#Disabled  #From_Bot</b>
+❌ <b>#Отключено  #From_Bot</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
+<b>Имя пользователя</b> : <code>{username}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>By :</b> <a href="tg://user?id={chat_id}">{full_name}</a>'''
             try:
@@ -1345,9 +1345,9 @@ def confirm_user_command(call: types.CallbackQuery):
             }, note=note))
         if TELEGRAM_LOGGER_CHANNEL_ID:
             text = f'''\
-✅ <b>#Activated  #From_Bot</b>
+✅ <b>#Активировано  #From_Bot</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
+<b>Имя пользователя</b> : <code>{username}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>By :</b> <a href="tg://user?id={chat_id}">{full_name}</a>'''
             try:
