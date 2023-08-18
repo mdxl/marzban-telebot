@@ -1383,22 +1383,22 @@ def confirm_user_command(call: types.CallbackQuery):
             text = f'''\
 🔁 <b>#Reset_usage  #From_Bot</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Username</b> : <code>{username}</code>
+<b>Имя пользователя</b> : <code>{username}</code>
 ➖➖➖➖➖➖➖➖➖
-<b>By :</b> <a href="tg://user?id={chat_id}">{full_name}</a>'''
+<b>От :</b> <a href="tg://user?id={chat_id}">{full_name}</a>'''
             try:
                 bot.send_message(TELEGRAM_LOGGER_CHANNEL_ID, text, 'HTML')
             except:
                 pass
     elif data == 'restart':
         m = bot.edit_message_text(
-            '🔄 Restarting XRay core...', call.message.chat.id, call.message.message_id)
+            '🔄 Перезапуск ядра XRay...', call.message.chat.id, call.message.message_id)
         xray.core.restart(xray.config.include_db_users())
         for node_id, node in list(xray.nodes.items()):
             if node.connected:
                 xray.operations.restart_node(node_id, xray.config.include_db_users())
         bot.edit_message_text(
-            '✅ XRay core restarted successfully.',
+            '✅ Ядро XRay успешно перезапущено.',
             m.chat.id, m.message_id,
             reply_markup=BotKeyboard.main_menu()
         )
@@ -1545,7 +1545,7 @@ def confirm_user_command(call: types.CallbackQuery):
         else:
             xray.operations.remove_user(db_user)
 
-        bot.answer_callback_query(call.id, "✅ User updated successfully.")
+        bot.answer_callback_query(call.id, "✅ Пользователь успешно обновлен.")
         
         try: note = user.note or ' '
         except: note = None
