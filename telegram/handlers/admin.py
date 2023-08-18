@@ -1155,7 +1155,7 @@ def add_user_expire_step(message: types.Message, username: str, data_limit: int)
     cleanup_messages(message.chat.id)
     bot.send_message(
         message.chat.id,
-        'Select Protocols:\nUsernames: {}\nData Limit: {}\nExpiry Date {}'.format(
+        'Выберите протоколы:\nИмя пользователя: {}\nЛимит по трафику: {}\nДата окончания {}'.format(
             mem_store.get(f'{message.chat.id}:username'),
             readable_size(mem_store.get(f'{message.chat.id}:data_limit'))\
                 if mem_store.get(f'{message.chat.id}:data_limit') else "Unlimited",
