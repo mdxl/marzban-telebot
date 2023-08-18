@@ -26,7 +26,7 @@ class BotKeyboard:
             types.InlineKeyboardButton(text='👥 Пользователи', callback_data='users:1'),
             types.InlineKeyboardButton(text='✏️ Редактировать всех пользователей', callback_data='edit_all'))
         keyboard.add(
-            types.InlineKeyboardButton(text='➕ Создать пользователя из шаблона', callback_data='template_add_user'))
+            types.InlineKeyboardButton(text='➕ Создать пользователя по Шаблону', callback_data='template_add_user'))
         keyboard.add(
             types.InlineKeyboardButton(text='➕ Создать пользователя', callback_data='add_user'))
         return keyboard
@@ -36,10 +36,10 @@ class BotKeyboard:
     def edit_all_menu():
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
-            types.InlineKeyboardButton(text='🗑 Удалить истекших', callback_data='delete_expired'),
-            types.InlineKeyboardButton(text='🗑 Удалить ограниченных', callback_data='delete_limited'))
+            types.InlineKeyboardButton(text='🗑 Удалить с истекшим сроком', callback_data='delete_expired'),
+            types.InlineKeyboardButton(text='🗑 Удалить израсходовавших лимит', callback_data='delete_limited'))
         keyboard.add(
-            types.InlineKeyboardButton(text='🔋 Данные (➕|➖)', callback_data='add_data'),
+            types.InlineKeyboardButton(text='🔋 Трафик (➕|➖)', callback_data='add_data'),
             types.InlineKeyboardButton(text='📅 Время (➕|➖)', callback_data='add_time'))
         keyboard.add(
             types.InlineKeyboardButton(text='➕ Добавить входящий', callback_data='inbound_add'),
@@ -82,7 +82,7 @@ class BotKeyboard:
         keyboard = types.InlineKeyboardMarkup()
 
         keyboard.add(types.InlineKeyboardButton(
-                text='🔡 Случайное имя пользователя',
+                text='🔡 Сгенерировать случайное имя пользователя',
                 callback_data=f'random:{template_id}'))
         keyboard.add(types.InlineKeyboardButton(
                 text='🔙 Отмена',
@@ -113,7 +113,7 @@ class BotKeyboard:
                     callback_data=f"edit:{user_info['username']}"))
             keyboard.add(
                 types.InlineKeyboardButton(
-                    text='📝 Редактировать заметку',
+                    text='📝 Редактировать примечание',
                     callback_data=f"edit_note:{user_info['username']}"),
                 types.InlineKeyboardButton(
                     text='📡 Ссылки',
@@ -278,7 +278,7 @@ class BotKeyboard:
         if action == "edit":
             keyboard.add(
                 types.InlineKeyboardButton(
-                    text="⚠️ Ограничение данных:",
+                    text="⚠️ Лимит по трафику:",
                     callback_data=f"help_edit"
                 )
             )
