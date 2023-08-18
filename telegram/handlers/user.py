@@ -35,10 +35,10 @@ def usage_command(message):
 ┌─{statuses[user.status]} <b>Статус:</b> <code>{user.status.title()}</code>
 │          └─<b>Имя пользователя:</b> <code>{user.username}</code>
 │
-├─🔋 <b>Ограничение данных:</b> <code>{readable_size(user.data_limit) if user.data_limit else 'Unlimited'}</code>
+├─🔋 <b>Лимит по трафику:</b> <code>{readable_size(user.data_limit) if user.data_limit else 'Unlimited'}</code>
 │          └─<b>Использованно данных:</b> <code>{readable_size(user.used_traffic) if user.used_traffic else "-"}</code>
 │
-└─📅 <b>Срок действия:</b> <code>{datetime.fromtimestamp(user.expire).date() if user.expire else 'Never'}</code>
+└─📅 <b>Дата окончания:</b> <code>{datetime.fromtimestamp(user.expire).date() if user.expire else 'Never'}</code>
             └─<b>Осталось дней:</b> <code>{(datetime.fromtimestamp(user.expire or 0) - datetime.now()).days if user.expire else '-'}</code>'''
 
     return bot.reply_to(message, text, parse_mode='HTML')
