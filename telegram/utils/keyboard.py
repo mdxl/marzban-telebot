@@ -233,10 +233,10 @@ class BotKeyboard:
             row = []
             for p in user:
                 status = {
-                    'Активен': '✅',
-                    'Истекла дата': '🕰',
-                    'Израсходовал лимит': '📵',
-                    'Отключен': '❌'
+                    'active': '✅',
+                    'expired': '🕰',
+                    'limited': '📵',
+                    'disabled': '❌'
                 }
                 row.append(types.InlineKeyboardButton(
                     text=f"{p.username} ({status[p.status]})",
