@@ -485,10 +485,10 @@ def get_user_info_text(
         status: str, username: str,sub_url : str, data_limit: int = None,
         usage: int = None, expire: int = None, note: str = None) -> str:
     statuses = {
-        'Активен': '✅',
-        'Истекла дата': '🕰',
-        'Израсходовал лимит': '🪫',
-        'Отключен': '❌'}
+        'active': '✅',
+        'expired': '🕰',
+        'limited': '🪫',
+        'disabled': '❌'}
     text = f'''\
 ┌─{statuses[status]} <b>Статус:</b> <code>{status.title()}</code>
 │          └─<b>Имя пользователя:</b> <code>{username}</code>
