@@ -465,7 +465,7 @@ def users_command(call: types.CallbackQuery):
     with GetDB() as db:
         total_pages = math.ceil(crud.get_users_count(db) / 10)
         users = crud.get_users(db, offset=(page - 1) * 10, limit=10, sort=[crud.UsersSortingOptions["-created_at"]])
-        text = """👥 Пользователи: (Page {page}/{total_pages})
+        text = """👥 Пользователи: (Страница {page}/{total_pages})
 ✅ Активные
 ❌ Отключенные
 🕰 С истекшей датой
