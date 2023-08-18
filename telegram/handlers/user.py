@@ -36,7 +36,7 @@ def usage_command(message):
 │          └─<b>Имя пользователя:</b> <code>{user.username}</code>
 │
 ├─🔋 <b>Лимит по трафику:</b> <code>{readable_size(user.data_limit) if user.data_limit else 'Unlimited'}</code>
-│          └─<b>Использованно данных:</b> <code>{readable_size(user.used_traffic) if user.used_traffic else "-"}</code>
+│          └─<b>Использованно:</b> <code>{readable_size(user.used_traffic) if user.used_traffic else "-"}</code>
 │
 └─📅 <b>Дата окончания:</b> <code>{datetime.fromtimestamp(user.expire).date() if user.expire else 'Never'}</code>
             └─<b>Осталось дней:</b> <code>{(datetime.fromtimestamp(user.expire or 0) - datetime.now()).days if user.expire else '-'}</code>'''
