@@ -36,7 +36,7 @@ class BotKeyboard:
     def edit_all_menu():
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
-            types.InlineKeyboardButton(text='🗑 Удалить с истекшим сроком', callback_data='delete_expired'),
+            types.InlineKeyboardButton(text='🗑 Удалить с истекшей датой', callback_data='delete_expired'),
             types.InlineKeyboardButton(text='🗑 Удалить израсходовавших лимит', callback_data='delete_limited'))
         keyboard.add(
             types.InlineKeyboardButton(text='🔋 Трафик (➕|➖)', callback_data='add_data'),
@@ -82,7 +82,7 @@ class BotKeyboard:
         keyboard = types.InlineKeyboardMarkup()
 
         keyboard.add(types.InlineKeyboardButton(
-                text='🔡 Сгенерировать случайное имя пользователя',
+                text='🔡 Сгенерировать случайное Имя пользователя',
                 callback_data=f'random:{template_id}'))
         keyboard.add(types.InlineKeyboardButton(
                 text='🔙 Отмена',
@@ -294,7 +294,7 @@ class BotKeyboard:
             )
             keyboard.add(
                 types.InlineKeyboardButton(
-                    text="📅 Cрок действия:",
+                    text="📅 Дата окончания:",
                     callback_data=f"help_edit"
                 )
             )
