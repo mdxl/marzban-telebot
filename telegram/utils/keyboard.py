@@ -26,9 +26,9 @@ class BotKeyboard:
             types.InlineKeyboardButton(text='👥 Пользователи', callback_data='users:1'),
             types.InlineKeyboardButton(text='✏️ Редактировать всех пользователей', callback_data='edit_all'))
         keyboard.add(
-            types.InlineKeyboardButton(text='➕ Create User From Template', callback_data='template_add_user'))
+            types.InlineKeyboardButton(text='➕ Создать пользователя по Шаблону', callback_data='template_add_user'))
         keyboard.add(
-            types.InlineKeyboardButton(text='➕ Create User', callback_data='add_user'))
+            types.InlineKeyboardButton(text='➕ Создать пользователя', callback_data='add_user'))
         return keyboard
 
 
@@ -36,15 +36,15 @@ class BotKeyboard:
     def edit_all_menu():
         keyboard = types.InlineKeyboardMarkup()
         keyboard.add(
-            types.InlineKeyboardButton(text='🗑 Delete Expired', callback_data='delete_expired'),
-            types.InlineKeyboardButton(text='🗑 Delete Limited', callback_data='delete_limited'))
+            types.InlineKeyboardButton(text='🗑 Удалить с истекшей датой', callback_data='delete_expired'),
+            types.InlineKeyboardButton(text='🗑 Удалить израсходовавших лимит', callback_data='delete_limited'))
         keyboard.add(
-            types.InlineKeyboardButton(text='🔋 Data (➕|➖)', callback_data='add_data'),
-            types.InlineKeyboardButton(text='📅 Time (➕|➖)', callback_data='add_time'))
+            types.InlineKeyboardButton(text='🔋 Трафик (➕|➖)', callback_data='add_data'),
+            types.InlineKeyboardButton(text='📅 Время (➕|➖)', callback_data='add_time'))
         keyboard.add(
-            types.InlineKeyboardButton(text='➕ Add Inbound', callback_data='inbound_add'),
-            types.InlineKeyboardButton(text='➖ Remove Inbound', callback_data='inbound_remove'))
-        keyboard.add(types.InlineKeyboardButton(text='🔙 Back', callback_data='cancel'))
+            types.InlineKeyboardButton(text='➕ Добавить протокол', callback_data='inbound_add'),
+            types.InlineKeyboardButton(text='➖ Удалить протокол', callback_data='inbound_remove'))
+        keyboard.add(types.InlineKeyboardButton(text='🔙 Назад', callback_data='cancel'))
         return keyboard
 
 
