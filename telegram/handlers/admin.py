@@ -485,10 +485,10 @@ def get_user_info_text(
         status: str, username: str,sub_url : str, data_limit: int = None,
         usage: int = None, expire: int = None, note: str = None) -> str:
     statuses = {
-        'active': '✅',
-        'expired': '🕰',
-        'limited': '🪫',
-        'disabled': '❌'}
+        'Активен': '✅',
+        'Истекла дата': '🕰',
+        'Израсходовал лимит': '🪫',
+        'Отключен': '❌'}
     text = f'''\
 ┌─{statuses[status]} <b>Статус:</b> <code>{status.title()}</code>
 │          └─<b>Имя пользователя:</b> <code>{username}</code>
@@ -496,12 +496,12 @@ def get_user_info_text(
 ├─🔋 <b>Лимит по трафику:</b> <code>{readable_size(data_limit) if data_limit else 'Unlimited'}</code>
 │          └─<b>Использовано:</b> <code>{readable_size(usage) if usage else "-"}</code>
 │
-├─📅 <b>Срок действия:</b> <code>{datetime.fromtimestamp(expire).date() if expire else 'Never'}</code>
+├─📅 <b>Дата окончания:</b> <code>{datetime.fromtimestamp(expire).date() if expire else 'Never'}</code>
 │           └─<b>Осталось дней:</b> <code>{(datetime.fromtimestamp(expire or 0) - datetime.now()).days if expire else '-'}</code>
 │
 '''
     if note:
-        text += f'├─📝 <b>Заметка:</b> <code>{note}</code>\n│\n'
+        text += f'├─📝 <b>Примечание:</b> <code>{note}</code>\n│\n'
     text += f'└─🚀 <b><a href="{sub_url}">Subscription</a>:</b> <code>{sub_url}</code>'
     return text
 
