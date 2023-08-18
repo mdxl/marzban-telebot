@@ -289,7 +289,7 @@ def add_time_step(message):
 @bot.callback_query_handler(cb_query_startswith("inbound"), is_admin=True)
 def inbound_command(call: types.CallbackQuery):
     bot.edit_message_text(
-        f"Select inbound to *{call.data[8:].title()}* from all users",
+        f"Выберите протокол для *{call.data[8:].title()}* у всех пользователей",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
