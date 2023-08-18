@@ -128,7 +128,7 @@ class BotKeyboard:
                     callback_data=f"edit:{user_info['username']}"))
         keyboard.add(
             types.InlineKeyboardButton(
-                text='🔁 Сбросить статистику',
+                text='🔁 Сбросить данные об использовании',
                 callback_data=f"reset_usage:{user_info['username']}"
             ),
             types.InlineKeyboardButton(
