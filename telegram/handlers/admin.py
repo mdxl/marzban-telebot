@@ -143,7 +143,7 @@ def delete_user_command(call: types.CallbackQuery):
 def suspend_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Вы уверены? Это приостановит пользователя `{username}`.",
+        f"⚠️ Вы уверены? Это отключить пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -169,7 +169,7 @@ def activate_user_command(call: types.CallbackQuery):
 def reset_usage_user_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Вы уверены? Это приведет к сбросу всей информации об использованных данных для пользователя `{username}`.",
+        f"⚠️ Вы уверены? Это приведет к сбросу всей информации об использованных данных пользователя `{username}`.",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
