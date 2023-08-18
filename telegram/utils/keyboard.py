@@ -53,7 +53,7 @@ class BotKeyboard:
         keyboard = types.InlineKeyboardMarkup()
         for inbound in inbounds:
             keyboard.add(types.InlineKeyboardButton(text=inbound, callback_data=f'confirm_{action}:{inbound}'))
-        keyboard.add(types.InlineKeyboardButton(text='🔙 Back', callback_data='cancel'))
+        keyboard.add(types.InlineKeyboardButton(text='🔙 Назад', callback_data='cancel'))
         return keyboard
 
 
@@ -82,10 +82,10 @@ class BotKeyboard:
         keyboard = types.InlineKeyboardMarkup()
 
         keyboard.add(types.InlineKeyboardButton(
-                text='🔡 Random Username',
+                text='🔡 Произвольное имя',
                 callback_data=f'random:{template_id}'))
         keyboard.add(types.InlineKeyboardButton(
-                text='🔙 Cancel',
+                text='🔙 Отмена',
                 callback_data='cancel'))
         return keyboard
 
