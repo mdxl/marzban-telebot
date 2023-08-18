@@ -618,7 +618,7 @@ def user_command(call: types.CallbackQuery):
 def revoke_sub_command(call: types.CallbackQuery):
     username = call.data.split(":")[1]
     bot.edit_message_text(
-        f"⚠️ Are you sure? This will *Revoke Subscription* link for `{username}`‼️",
+        f"⚠️ Вы уверены? Это приведет к *Отзыву ссылки на подписку* для пользователя `{username}`‼️",
         call.message.chat.id,
         call.message.message_id,
         parse_mode="markdown",
@@ -745,9 +745,9 @@ def template_charge_command(call: types.CallbackQuery):
                             user.data_limit - user.used_traffic + template.data_limit) if user.data_limit else template.data_limit,
                 usage=0, note=note)
             bot.edit_message_text(f'''\
-‼️ <b>If add template <u>Bandwidth</u> and <u>Time</u> to the user, the user will be this</b>:\n\n\
+‼️ <b>Если добавить в шаблон <u>Пропускную способность</u> и <u>Время</u> пользователю, то пользователь будет выглядеть так</b>:\n\n\
 {text}\n\n\
-<b>Add template <u>Bandwidth</u> and <u>Time</u> to user or Reset to <u>Template default</u></b>⁉️''',
+<b>Добавить в шаблон <u>Пропускную способность</u> и <u>Время</u> пользователю или сбросить на <u>Стандартный шаблон</u></b>⁉️''',
                 call.message.chat.id,
                 call.message.message_id,
                 parse_mode='html',
@@ -775,7 +775,7 @@ def template_charge_command(call: types.CallbackQuery):
                 data_limit=template.data_limit,
                 usage=0, note=note)
             bot.edit_message_text(
-                f'🔋 User Successfully Charged!\n\n{text}',
+                f'🔋 Пользователь успешно Charged!\n\n{text}',
                 call.message.chat.id,
                 call.message.message_id,
                 parse_mode='html',
@@ -786,17 +786,17 @@ def template_charge_command(call: types.CallbackQuery):
                 text = f'''\
 🔋 <b>#Charged #Reset #From_Bot</b>
 ➖➖➖➖➖➖➖➖➖
-<b>Template :</b> <code>{template.name}</code>
-<b>Username :</b> <code>{user.username}</code>
+<b>Шаблон :</b> <code>{template.name}</code>
+<b>Имя пользователя :</b> <code>{user.username}</code>
 ➖➖➖➖➖➖➖➖➖
-<u><b>Last status</b></u>
-<b>├Traffic Limit :</b> <code>{readable_size(user.data_limit) if user.data_limit else "Unlimited"}</code>
-<b>├Expire Date :</b> <code>\
+<u><b>Последний статус</b></u>
+<b>├Лимит по трафику :</b> <code>{readable_size(user.data_limit) if user.data_limit else "Unlimited"}</code>
+<b>├Дата окончания :</b> <code>\
 {datetime.fromtimestamp(user.expire).strftime('%H:%M:%S %Y-%m-%d') if user.expire else "Never"}</code>
 ➖➖➖➖➖➖➖➖➖
-<u><b>New status</b></u>
-<b>├Traffic Limit :</b> <code>{readable_size(db_user.data_limit) if db_user.data_limit else "Unlimited"}</code>
-<b>├Expire Date :</b> <code>\
+<u><b>Новый статус</b></u>
+<b>├Лимит по трафику :</b> <code>{readable_size(db_user.data_limit) if db_user.data_limit else "Unlimited"}</code>
+<b>├Дата окончания :</b> <code>\
 {datetime.fromtimestamp(db_user.expire).strftime('%H:%M:%S %Y-%m-%d') if db_user.expire else "Never"}</code>
 ➖➖➖➖➖➖➖➖➖
 <b>By :</b> <a href="tg://user?id={call.from_user.id}">{call.from_user.full_name}</a>'''
