@@ -284,7 +284,7 @@ class BotKeyboard:
             )
             keyboard.add(
                 types.InlineKeyboardButton(
-                    text=f"{readable_size(data_limit) if data_limit else 'Unlimited'}",
+                    text=f"{readable_size(data_limit) if data_limit else 'Неограниченный'}",
                     callback_data=f"help_edit"
                 ),
                 types.InlineKeyboardButton(
@@ -300,7 +300,7 @@ class BotKeyboard:
             )
             keyboard.add(
                 types.InlineKeyboardButton(
-                    text=f"{expire_date.strftime('%Y-%m-%d') if expire_date else 'Never'}",
+                    text=f"{expire_date.strftime('%Y-%m-%d') if expire_date else 'Никогда'}",
                     callback_data=f"help_edit"
                 ),
                 types.InlineKeyboardButton(
