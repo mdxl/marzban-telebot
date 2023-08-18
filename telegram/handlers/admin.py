@@ -493,10 +493,10 @@ def get_user_info_text(
 ┌─{statuses[status]} <b>Статус:</b> <code>{status.title()}</code>
 │          └─<b>Имя пользователя:</b> <code>{username}</code>
 │
-├─🔋 <b>Лимит по трафику:</b> <code>{readable_size(data_limit) if data_limit else 'Unlimited'}</code>
+├─🔋 <b>Лимит по трафику:</b> <code>{readable_size(data_limit) if data_limit else 'Неограниченный'}</code>
 │          └─<b>Использовано:</b> <code>{readable_size(usage) if usage else "-"}</code>
 │
-├─📅 <b>Дата окончания:</b> <code>{datetime.fromtimestamp(expire).date() if expire else 'Never'}</code>
+├─📅 <b>Дата окончания:</b> <code>{datetime.fromtimestamp(expire).date() if expire else 'Никогда'}</code>
 │           └─<b>Осталось дней:</b> <code>{(datetime.fromtimestamp(expire or 0) - datetime.now()).days if expire else '-'}</code>
 │
 '''
