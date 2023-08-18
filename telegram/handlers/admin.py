@@ -191,7 +191,7 @@ def edit_all_command(call: types.CallbackQuery):
 ✅ *Активных*: `{active_users}`
 ❌ *Отключенных*: `{disabled_users}`
 🕰 *С истекшей датой*: `{exipred_users}`
-🪫 *Израсходовавшие лимит*: `{limited_users}`'''
+🪫 *Израсходовавших лимит*: `{limited_users}`'''
     return bot.edit_message_text(
         text,
         call.message.chat.id,
@@ -366,7 +366,7 @@ def edit_user_command(call: types.CallbackQuery):
     if action == "data":
         msg = bot.send_message(
             call.message.chat.id,
-            '⬆️ Введите ограничение по объему данных в (Гб):\n⚠️ Если ограничения не нужны, отправьте 0.',
+            '⬆️ Введите ограничение по объему трафика в (Гб):\n⚠️ Если ограничения не нужны, отправьте 0.',
             reply_markup=BotKeyboard.inline_cancel_action(f'user:{username}')
         )
         mem_store.set(f"{call.message.chat.id}:edit_msg_text", call.message.text)
@@ -468,7 +468,7 @@ def users_command(call: types.CallbackQuery):
         text = """👥 Пользователи: (Page {page}/{total_pages})
 ✅ Активные
 ❌ Отключенные
-🕰 С истекшим сроком
+🕰 С истекшей датой
 🪫 Израсходовавшие лимит""".format(page=page, total_pages=total_pages)
 
     bot.edit_message_text(
@@ -597,7 +597,7 @@ def user_command(call: types.CallbackQuery):
         if not db_user:
             return bot.answer_callback_query(
                 call.id,
-                '❌ User not found.',
+                '❌ Пользователь не найден.',
                 show_alert=True
             )
         user = UserResponse.from_orm(db_user)
@@ -839,7 +839,7 @@ def charge_command(call: types.CallbackQuery):
             return bot.answer_callback_query(call.id, "Пользователь не найден!", show_alert=True)
 
     bot.edit_message_text(
-        f"{call.message.html_text}\n\n🔢 Select <b>User Template</b> to charge:",
+        f"{call.message.html_text}\n\n🔢 Выберите <b>Пользовательский Шаблон</b> для charge:",
         call.message.chat.id,
         call.message.message_id,
         parse_mode='html',
@@ -880,9 +880,9 @@ def add_user_from_template(call: types.CallbackQuery):
         username_prefix=template.username_prefix, username_suffix=template.username_suffix,
         inbounds=template.inbounds)
     if template.username_prefix:
-        text += f"\n⚠️ Username will be prefixed with <code>{template.username_prefix}</code>"
+        text += f"\n⚠️ Имя пользователя будет начинаться с префикса <code>{template.username_prefix}</code>"
     if template.username_suffix:
-        text += f"\n⚠️ Username will be suffixed with <code>{template.username_suffix}</code>"
+        text += f"\n⚠️ Имя пользователя будет заканчиваться с суффиксом <code>{template.username_suffix}</code>"
 
     mem_store.set(f"{call.message.chat.id}:template_id", template.id)
     template_msg = bot.edit_message_text(
@@ -891,7 +891,7 @@ def add_user_from_template(call: types.CallbackQuery):
         call.message.message_id,
         parse_mode="HTML"
     )
-    text = '👤 Enter username:\n⚠️ Username only can be 3 to 32 characters and contain a-z, A-Z, 0-9, and underscores in between.'
+    text = '👤 Введите имя пользователя:\n⚠️ Имя пользователя может содержать от 3 до 32 символов и включать только буквы a-z, A-Z, цифры 0-9 и символ подчеркивания между ними.'
     msg = bot.send_message(
         call.message.chat.id,
         text,
@@ -919,7 +919,7 @@ def random_username(call: types.CallbackQuery):
 
     if not template_id:
         msg = bot.send_message(call.message.chat.id,
-            '⬆️ Enter Data Limit (GB):\n⚠️ Send 0 for unlimited.',
+            '⬆️ Введите ограничение по объему трафика в (Гб):\n⚠️ Если ограничения не нужны, отправьте 0.',
             reply_markup=BotKeyboard.inline_cancel_action())
         schedule_delete_message(call.message.chat.id, msg.id)
         return bot.register_next_step_handler(call.message, add_user_data_limit_step, username=username)
