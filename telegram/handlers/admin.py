@@ -1266,7 +1266,7 @@ def confirm_user_command(call: types.CallbackQuery):
         )
         if TELEGRAM_LOGGER_CHANNEL_ID:
             text = f'''\
-🗑 <b>#Удалено #From_Bot</b>
+🗑 <b>#Удалено #От_Ботаt</b>
 ➖➖➖➖➖➖➖➖➖
 <b>Имя пользователя :</b> <code>{db_user.username}</code>
 <b>Лимит по трафику :</b> <code>{readable_size(db_user.data_limit) if db_user.data_limit else "Unlimited"}</code>
