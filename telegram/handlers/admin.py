@@ -1054,8 +1054,8 @@ def add_user_command(call: types.CallbackQuery):
         pass
     username_msg = bot.send_message(
         call.message.chat.id,
-        '👤 Enter username:\n⚠️Username only can be 3 to 32 characters and contain a-z, A-Z 0-9, and underscores in '
-        'between.',
+        '👤 Введите имя пользователя:\n⚠️Имя пользователя может содержать от 3 до 32 символов и включать a-z, A-Z, 0-9 и символ подчеркивания '
+        'между ними.',
         reply_markup=BotKeyboard.random_username())
     schedule_delete_message(call.message.chat.id, username_msg.id)
     bot.register_next_step_handler(username_msg, add_user_username_step)
@@ -1064,26 +1064,26 @@ def add_user_command(call: types.CallbackQuery):
 def add_user_username_step(message: types.Message):
     username = message.text
     if not username:
-        wait_msg = bot.send_message(message.chat.id, '❌ Username can not be empty.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Имя пользователя не может быть пустым.')
         schedule_delete_message(message.chat.id, wait_msg.id)
         schedule_delete_message(message.chat.id, message.id)
         return bot.register_next_step_handler(wait_msg, add_user_username_step)
     if not re.match(r'^(?!.*__)(?!.*_$)\w{2,31}[a-zA-Z\d]$', username):
         wait_msg = bot.send_message(message.chat.id,
-            '❌ Username only can be 3 to 32 characters and contain a-z, A-Z, 0-9, and underscores in between.')
+            '❌ Имя пользователя может содержать от 3 до 32 символов и включать a-z, A-Z, 0-9 и символ подчеркивания между ними.')
         schedule_delete_message(message.chat.id, wait_msg.id)
         schedule_delete_message(message.chat.id, message.id)
         return bot.register_next_step_handler(wait_msg, add_user_username_step)
     with GetDB() as db:
         if crud.get_user(db, username):
-            wait_msg = bot.send_message(message.chat.id, '❌ Username already exists.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Имя пользователя уже существует.')
             schedule_delete_message(message.chat.id, wait_msg.id)
             schedule_delete_message(message.chat.id, message.id)
             return bot.register_next_step_handler(wait_msg, add_user_username_step)
     schedule_delete_message(message.chat.id, message.id)
     cleanup_messages(message.chat.id)
     msg = bot.send_message(message.chat.id,
-        '⬆️ Enter Data Limit (GB):\n⚠️ Send 0 for unlimited.',
+        '⬆️ Введите ограничение по объему трафика в (Гб):\n⚠️ Если ограничения не нужны, отправьте 0.',
         reply_markup=BotKeyboard.inline_cancel_action())
     schedule_delete_message(message.chat.id, msg.id)
     bot.register_next_step_handler(msg, add_user_data_limit_step, username=username)
@@ -1092,20 +1092,20 @@ def add_user_username_step(message: types.Message):
 def add_user_data_limit_step(message: types.Message, username: str):
     try:
         if float(message.text) < 0:
-            wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be greater or equal to 0.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Лимит данных должен быть больше или равен 0.')
             schedule_delete_message(message.chat.id, wait_msg.id)
             schedule_delete_message(message.chat.id, message.id)
             return bot.register_next_step_handler(wait_msg, add_user_data_limit_step, username=username)
         data_limit = float(message.text) * 1024 * 1024 * 1024
     except ValueError:
-        wait_msg = bot.send_message(message.chat.id, '❌ Data limit must be a number.')
+        wait_msg = bot.send_message(message.chat.id, '❌ Лимит данных должен быть числом.')
         schedule_delete_message(message.chat.id, wait_msg.id)
         schedule_delete_message(message.chat.id, message.id)
         return bot.register_next_step_handler(wait_msg, add_user_data_limit_step, username=username)
     schedule_delete_message(message.chat.id, message.id)
     cleanup_messages(message.chat.id)
     msg = bot.send_message(message.chat.id,
-        '⬆️ Enter Expire Date (YYYY-MM-DD)\nOr You Can Use Regex Symbol: ^[0-9]{1,3}(M|D) :\n⚠️ Send 0 for never expire.',
+        '⬆️ Введите дату окончания (ГГГГ-ММ-ДД)\nИли воспользуйтесь символами регулярного выражения: ^[0-9]{1,3}(M|D) :\n⚠️ Если дата окончания не нужна, отправьте 0.',
         reply_markup=BotKeyboard.inline_cancel_action())
     schedule_delete_message(message.chat.id, msg.id)
     bot.register_next_step_handler(msg, add_user_expire_step, username=username, data_limit=data_limit)
@@ -1137,7 +1137,7 @@ def add_user_expire_step(message: types.Message, username: str, data_limit: int)
         else:
             expire_date = None
         if expire_date and expire_date < today:
-            wait_msg = bot.send_message(message.chat.id, '❌ Expire date must be greater than today.')
+            wait_msg = bot.send_message(message.chat.id, '❌ Дата окончания должна быть позже текущей даты.')
             schedule_delete_message(message.chat.id, wait_msg.id)
             schedule_delete_message(message.chat.id, message.id)
             return bot.register_next_step_handler(wait_msg, add_user_expire_step, username=username, data_limit=data_limit)
