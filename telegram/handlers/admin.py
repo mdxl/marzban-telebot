@@ -502,7 +502,7 @@ def get_user_info_text(
 '''
     if note:
         text += f'├─📝 <b>Примечание:</b> <code>{note}</code>\n│\n'
-    text += f'└─🚀 <b><a href="{sub_url}">Subscription</a>:</b> <code>{sub_url}</code>'
+    text += f'└─🚀 <b><a href="{sub_url}">Подписка</a>:</b> <code>{sub_url}</code>'
     return text
 
 
